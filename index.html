@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Лабораторна робота 7</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+//Завдання 1
+//Натискання на кнопку "SHOW ME" має виводити значення з поля введення у консолі.
+
+        function showValue() {
+            var input = document.getElementById("inputField").value;
+            console.log(input);
+        }
+
+//Завдання 3
+// Кнопка "Приховати" ховає текст , виводячи зірочки
+// замість введеної інформації, замінює назву кнопки на
+// "Розкрити", при повторному натисканні текст знову
+// стає доступним і кнопка набуває початкового вигляду. 
+
+        function toggleText() {
+      var textInput = document.getElementById("textInput");
+      var toggleButton = document.getElementById("toggleButton");
+
+      if (textInput.type === "text") {
+        textInput.type = "password";
+        toggleButton.textContent = "Show";
+      } else {
+        textInput.type = "text";
+        toggleButton.textContent = "Hide";
+      }
+    }
+
+//Завдання 5
+//Якщо користувач клікнув на зеленому
+//прямокутнику – у консолі виведе true. У протилежному випадку - false
+
+    window.addEventListener('click', function(event) {
+            var place = document.getElementById("place");
+            
+            if (event.target === place) {
+                console.log(true);
+            }
+             else {
+                console.log(false);
+            }
+        }
+        );
+
+//Завдання 7
+//Написати скрипт, який:
+// 1. Порахує і виведе в консоль кількість категорій
+// в ul#categories, тобто елементів li.item.
+// 2. Для кожного элемента li.item у
+// списку ul#categories, знайде і виведе в консоль
+// текст заголовку елемента (тегу <h2>) і кількість
+// елементів в категорії (усіх <li>, вкладених в
+// нього).
+// Для виконання цього завдання потрібно використати
+// метод forEach() і властивості навігації по DOM.
+
+document.addEventListener('DOMContentLoaded', function() {
+  const countButton = document.getElementById('countButton');
+  const categoriesList = document.getElementById('categories');
+  countButton.addEventListener('click', countCategories);
+
+function countCategories() {
+  const categories = categoriesList.querySelectorAll('.item');
+  
+  console.log(`Total categories: ${categories.length}`);
+  
+  categories.forEach((category) => {
+    const categoryName = category.querySelector('h2').textContent;
+    const categoryItems = category.querySelectorAll('li').length;
+    
+    console.log(`Category: ${categoryName}`);
+    console.log(`Number of items: ${categoryItems}`);
+  });
+}
+});
+
+
+//Завдання 8
+//Cкрипт управління формою логіна.
+//1. Обробка відправлення форми form.login-
+// form повинна відбуватися за подією submit.
+// 2. Під час відправлення форми сторінка не повинна
+// перезавантажуватися.
+// 3. Якщо при сабміті у формі є незаповнені поля,
+// виводь alert з попередженням про те, що All
+// form fields must be filled. Не
+// додавай на інпути атрибут required, валідація має
+// відбуватися саме через JS.
+// 4. Якщо користувач заповнив усі поля і відправив
+// форму, збери значення полів в об'єкт з двома
+// властивостями, де ключ — це ім'я інпутів, а
+// значення — відповідні значення цих інпутів,
+// очищені від пробілів по краях. Для доступу до
+// елементів форми використовуй
+// властивість elements.
+// 5. При сабміті форми виведи об'єкт із введеними
+// даними в консоль і очисти значення полів форми
+// методом reset.
+
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.querySelector('.login-form');
+
+  form.addEventListener('submit', function(event) {
+    event.preventDefault();
+    const emailValue = this.elements.email.value.trim();
+    const passwordValue = this.elements.password.value.trim();
+
+    if (!emailValue || !passwordValue) {
+      alert('All form fields must be filled in');
+    } else {
+      const formData = {
+        email: emailValue,
+        password: passwordValue
+      };
+
+      console.log(formData);
+      this.reset();
+    }
+  });
+});
+
+//Завдання 9
+//Напиши скрипт, який змінює колір фону
+// елемента <body> через інлайн-стиль по кліку
+// на button.change-color і задає це значення
+// кольору текстовим вмістом для span.color.
+
+function getRandomHexColor() {
+return `#${Math.floor(Math.random() *
+16777215)
+.toString(16)
+.padStart(6, 0)}`;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+const changeColorButton = document.querySelector('.change-color');
+const colorSpan = document.querySelector('.color');
+
+changeColorButton.addEventListener('click', changeColor);
+
+function changeColor() {
+  const randomColor = getRandomHexColor();
+  document.body.style.backgroundColor = randomColor;
+  colorSpan.textContent = randomColor;
+}
+});
+
+//Завдання 10
+//Є input, у який користувач вводить бажану кількість
+// елементів. Після натискання на кнопку Create має
+// рендеритися (додаватися в DOM) колекція з
+// відповідною кількістю елементів і очищатися значення
+// в інпуті. При повторному натисканні на
+// кнопку Create поверх старої колекції має рендеритись
+// нова. Після натискання на кнопку Destroy колекція
+// елементів має очищатися.
+// Після натискання користувачем на
+// кнопку Create треба провалідувати значення в input,
+// воно має бути в межах від 1 до 100 включно. Тільки
+// якщо воно задоволяє умову, мають додаватися
+// нові <div> елементи в DOM.
+// Для рендеру елементів на сторінці створи
+// функцію createBoxes(amount), яка приймає один
+// параметр — число, що зберігає кількість елементів для
+// рендеру. Функція має створювати
+// стільки <div> елементів, скільки вказано
+// в параметрі amount і додавати їх у DOM дочірніми
+// елементами для div#boxes.
+// 1. Розміри першого <div> елемента мають бути
+// 30px на 30px.
+// 2. Кожен наступний елемент повинен бути ширшим
+// і вищим від попереднього на 10px.
+// 3. Усі елементи повинні мати випадковий колір
+// фону. Використовуй готову
+// функцію getRandomHexColor() для отримання
+// випадкового кольору.
+
+document.addEventListener('DOMContentLoaded', function() { 
+const createButton = document.querySelector('[data-create]');
+    const destroyButton = document.querySelector('[data-destroy]');
+    const amountInput = document.getElementById('amountInput');
+    const boxesDiv = document.getElementById('boxes');
+
+    createButton.addEventListener('click', () => {
+      const amount = amountInput.value;
+
+      if (amount >= 1 && amount <= 100) {
+        createBoxes(amount);
+        amountInput.value = '';
+      } else {
+        alert('Please enter a number from 1 to 100');
+      }
+    });
+
+    destroyButton.addEventListener('click', () => {
+      destroyBoxes();
+    });
+
+    function createBoxes(amount) {
+      for (let i = 0; i < amount; i++) {
+        const box = document.createElement('div');
+        box.style.width = `${30 + i * 10}px`;
+        box.style.height = `${30 + i * 10}px`;
+        box.style.backgroundColor = getRandomHexColor();
+        boxesDiv.appendChild(box);
+      }
+    }
+
+    function destroyBoxes() {
+      boxesDiv.innerHTML = '';
+    }
+});
+
+    </script>
+</head>
+<body>
+    <h2>Завдання 1:</h2>
+    <label for="inputField">Введіть значення:</label>
+    <input type="text" id="inputField">
+    <button onclick="showValue()">SHOW ME</button>
+
+    <h2>Завдання 3:</h2>
+    <input type="text" id="textInput" placeholder="Enter text">
+    <button id="toggleButton" onclick="toggleText()">Hide</button>
+
+    <h2>Завдання 5:</h2>
+    <div class="taskTitle">Натисніть на об'єкт:</div>
+    <div id="place"></div>
+
+    <h2>Завдання 7:</h2>
+    <ul id="categories">
+        <li class="item">
+          <h2>Animals</h2>
+          <ul>
+            <li>Cat</li>
+            <li>Hamster</li>
+            <li>Horse</li>
+            <li>Parrot</li>
+          </ul>
+        </li>
+        <li class="item">
+          <h2>Products</h2>
+          <ul>
+            <li>Bread</li>
+            <li>Prasley</li>
+            <li>Cheese</li>
+          </ul>
+        </li>
+        <li class="item">
+          <h2>Technologies</h2>
+          <ul>
+            <li>HTML</li>
+            <li>CSS</li>
+            <li>JavaScript</li>
+            <li>React</li>
+            <li>Node.js</li>
+          </ul>
+        </li>
+      </ul>
+    <button id="countButton">Count Categories</button>
+     
+ <h2>Завдання 8:</h2>
+  <form class="login-form">
+    <label>
+        Email
+        <input type="email" name="email">
+    </label>
+    <label>
+        Password
+        <input type="password" name="password">
+    </label>
+    <button type="submit">Log in</button>
+  </form>
+
+  <h2>Завдання 9:</h2>
+  <div class="widget">
+    <p>Background color: <span
+    class="color">-</span></p>
+    <button type="button" class="change-color">Change color</button>
+    </div>    
+  
+  <h2>Завдання 10:</h2>
+  <div id="controls">
+    <input type="number" id="amountInput" min="1" max="100" step="1" />
+    <button type="button" data-create>Create</button>
+    <button type="button" data-destroy>Destroy</button>
+  </div>
+  <div id="boxes"></div>
+
+</body>
+</html>

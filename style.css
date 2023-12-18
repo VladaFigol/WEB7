@@ -1,0 +1,29 @@
+.taskTitle {
+    font-size: 18px;
+    font-weight: bold;
+}
+#place {
+    width: 200px;
+    height: 200px;
+    background-color: green;
+}
+
+.color {
+    font-weight: bold;
+  }
+  .widget {
+    margin: 20px;
+  }
+
+  #controls {
+    margin-bottom: 10px;
+  }
+  #boxes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  #boxes div {
+    width: 30px;
+    height: 30px;
+  }
